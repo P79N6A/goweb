@@ -34,3 +34,7 @@ func SetCookie(c *gin.Context) {
 	c.SetCookie("gin_cookie", "myValue", 3600, "/", "localhost", false, true)
 	c.String(http.StatusOK, "set cookies")
 }
+
+func LoginEndpoint(c *gin.Context) {
+	c.String(http.StatusOK, "login")
+}

@@ -9,6 +9,6 @@ import (
 func main() {
 	//当整个程序完成之后关闭数据库连接
 	defer databases.SqlDB.Close()
-	initRouter := router.InitRouter()
-	_ = initRouter.Run("127.0.0.1:8081")
+	r := router.InitRouter()
+	_ = r.Run("127.0.0.1:8081")
 }
