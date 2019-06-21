@@ -16,7 +16,7 @@ func InitRouter() *gin.Engine {
 	f, _ := os.Create("gin.log")
 	//f, _ := os.Open("gin.log")
 	gin.DefaultWriter = io.MultiWriter(f, os.Stdout) //将日志同时写入文件和控制台
-
+	//gin.SetMode(gin.ReleaseMode)// 正式版发布
 	// 默认启动方式，包含 Logger、Recovery 中间件
 	router := gin.Default()
 	//router := gin.New()//无中间件启动
