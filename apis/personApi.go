@@ -11,6 +11,8 @@ import (
 
 // GET /
 func IndexApi(c *gin.Context) {
+	value, _ := c.Get("example")
+	fmt.Println(value)
 	c.String(http.StatusOK, "It works")
 }
 

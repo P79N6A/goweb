@@ -15,3 +15,6 @@ c.PostForm("key") //获取POST参数
 c.DefaultPostForm("key","defaultValue")
 
 c.Bind(&p)//将请求主体绑定到结构体中,目前支持JSON、XML、YAML和标准表单值(foo=bar&boo=baz)的绑定
+
+set GOOS=linux
+go build main.go

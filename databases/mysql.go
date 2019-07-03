@@ -12,6 +12,7 @@ var SqlDB *sql.DB
 //初始化方法
 func init() {
 	var err error
+	//SqlDB, err = sql.Open("mysql", "root:zxcvbnm123@tcp(gz-cdb-ngh86yed.sql.tencentcdb.com:61077)/test?parseTime=true")
 	SqlDB, err = sql.Open("mysql", "root:admin@tcp(127.0.0.1:3306)/test?parseTime=true")
 	CheckErr(err)
 	//连接检测

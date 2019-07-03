@@ -10,5 +10,5 @@ func main() {
 	//当整个程序完成之后关闭数据库连接
 	defer databases.SqlDB.Close()
 	r := router.InitRouter()
-	_ = r.Run("127.0.0.1:8081")
+	_ = r.Run(":8081")
 }
