@@ -15,7 +15,7 @@ func consumer() {
 	config := sarama.NewConfig()
 	//接收失败通知
 	config.Consumer.Return.Errors = true
-	config.Version = sarama.V2_0_0_0
+	config.Version = sarama.V0_10_2_1
 
 	// consumer
 	consumer, err := sarama.NewConsumer([]string{"localhost:9092"}, config)
@@ -26,7 +26,9 @@ func consumer() {
 	defer consumer.Close()
 
 	//根据消费者获取指定的主题分区的消费者,Offset这里指定为获取最新的消息.
-	partitionConsumer, err := consumer.ConsumePartition("kafka_go_test", 0, sarama.OffsetOldest)
+	//topic := "java_topic"
+	topic := "kafka_go_test"
+	partitionConsumer, err := consumer.ConsumePartition(topic, 0, sarama.OffsetOldest)
 	if err != nil {
 		fmt.Printf("try create partitionConsumer error %s\n", err.Error())
 		return
