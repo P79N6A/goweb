@@ -94,7 +94,7 @@ func (c *Consumer) Consume(done chan bool, consumeMethod func(msg *sarama.Consum
 	if e != nil {
 		return
 	}
-	for t, _ := range whTopic {
+	for t := range whTopic {
 		consumer, e := sarama.NewConsumer(strings.Split(c.BrokerServers, ","), nil)
 		if e != nil {
 			log.Printf("Create consumer for %s topic failed: %s \n", t, e.Error())

@@ -10,15 +10,13 @@ func main() {
 }
 
 func consumer() {
-	fmt.Println("consumer_test")
-
 	config := sarama.NewConfig()
-	//接收失败通知
-	config.Consumer.Return.Errors = true
+	config.Consumer.Return.Errors = true //接收失败通知
 	config.Version = sarama.V0_10_2_1
 
 	// consumer
-	consumer, err := sarama.NewConsumer([]string{"localhost:9092"}, config)
+	addrs := []string{"localhost:9092"}
+	consumer, err := sarama.NewConsumer(addrs, config)
 	if err != nil {
 		fmt.Printf("consumer_test create consumer error %s\n", err.Error())
 		return
@@ -34,11 +32,11 @@ func consumer() {
 		return
 	}
 	defer partitionConsumer.Close()
-
+	fmt.Printf("consume topic [%s]:\n", topic)
 	for {
 		select {
 		case msg := <-partitionConsumer.Messages():
-			fmt.Printf("msg{    topic: %s,    offset: %d,    partition: %d,    timestamp: %s,    key: %s,    value: %s}\n",
+			fmt.Printf("msg{  topic: %s,  offset: %d,  partition: %d,  timestamp: %s,  key: %s,  value: %s}\n",
 				msg.Topic, msg.Offset, msg.Partition, msg.Timestamp.String(), string(msg.Key), string(msg.Value))
 		case err := <-partitionConsumer.Errors():
 			fmt.Printf("err :%s\n", err.Error())

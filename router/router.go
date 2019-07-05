@@ -77,6 +77,12 @@ func InitRouter() *gin.Engine {
 			v21.GET("login", LoginEndpoint)
 		}
 	}
+	v3 := router.Group("user")
+	{
+		v3.POST("login", LoginApi)
+		v3.GET("hot", GetHot)
+		v3.GET("keyword", GetKeyword)
+	}
 
 	// simulate some private data
 	var secrets = gin.H{
