@@ -18,3 +18,6 @@ c.Bind(&p)//将请求主体绑定到结构体中,目前支持JSON、XML、YAML�
 
 set GOOS=linux
 go build main.go
+
+swagger文档
+http://127.0.0.1:8081/swagger/index.html

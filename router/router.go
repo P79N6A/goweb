@@ -74,8 +74,8 @@ func InitRouter() *gin.Engine {
 	}
 	v3 := router.Group("user")
 	{
-		v3.POST("login", LoginApi)
-		v3.GET("hot", GetHot)
+		v3.POST("/login", LoginApi)
+		v3.GET("/hot", GetHot)
 		v3.GET("/keyword", GetKeyword)
 		v3.GET("/get/:id", GetUser)
 		v3.POST("/register", AddUser)
