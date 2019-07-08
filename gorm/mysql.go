@@ -62,8 +62,9 @@ func main() {
 
 	user := User{}
 	db.First(&user) //第一条，按主键排序
-
 	fmt.Println("第一条", user)
+	db.Find(&user, 1)
+	fmt.Println(user)
 
 	user = User{}
 	db.Last(&user) //最后一条

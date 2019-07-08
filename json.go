@@ -7,8 +7,8 @@ import (
 
 func main() {
 	type User struct {
-		Name     string
-		Password string
+		Username string `json:"name"`
+		Password string `json:"password"`
 	}
 	jsonstr := `[
   {"name":"李一", "password":"123456"},
@@ -27,4 +27,6 @@ func main() {
 	users := new([]User)
 	_ = json.Unmarshal([]byte(jsonstr), &users)
 	fmt.Println(users)
+
+	fmt.Println(fmt.Sprintf("新增用户id为%d", 4))
 }

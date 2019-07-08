@@ -3,41 +3,27 @@ package apis
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"goweb/models"
+	"log"
 	"net/http"
+	"strconv"
 )
 
-type User struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
-var users = make(map[string]string)
-
-func init() {
-	users["ys"] = "123"
-}
-
 func LoginApi(c *gin.Context) {
-	//username := c.PostForm("username")
-	//password := c.PostForm("password")
-	//username := c.Request.FormValue("username") //url写first_name=a&last_name=b
-	//password := c.Request.FormValue("password")
-	//fmt.Println(username, password)
-
-	user := new(User)
+	user := new(models.User)
 	if err := c.Bind(&user); err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Println(user)
-	value, ok := users[user.Username]
-	if ok && value == user.Password {
+	log.Println(user)
+	findUser := models.User{}
+	findUser.GetUserByName(user.Username)
+
+	if findUser.Password == user.Password {
 		c.JSON(http.StatusOK, gin.H{
-			"status": "success",
-			"msg":    "登录成功",
-			"data": gin.H{
-				"username": user.Username,
-			},
+			"status":   "success",
+			"msg":      "登录成功",
+			"username": user.Username,
 		})
 	} else {
 		c.JSON(http.StatusOK, gin.H{
@@ -47,10 +33,60 @@ func LoginApi(c *gin.Context) {
 	}
 }
 
+func GetUser(c *gin.Context) {
+	id := c.Param("id")
+	intId, _ := strconv.Atoi(id)
+	user := &models.User{}
+	user.GetUser(intId)
+	c.JSON(http.StatusOK, user)
+}
+
+func AddUser(c *gin.Context) {
+	user := &models.User{}
+	if err := c.Bind(&user); err != nil {
+		c.String(http.StatusBadRequest, err.Error())
+	}
+	fmt.Println("post参数：", user)
+	//username不能重复
+	existUser := models.User{}
+	existUser.GetUserByName(user.Username)
+	if existUser.Id != 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"status": "error",
+			"msg":    "用户名已存在！",
+		})
+		return
+	}
+
+	user.AddUser()
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+		"msg":    fmt.Sprintf("注册用户成功，id为%d", user.Id),
+	})
+}
+
+func IsExist(c *gin.Context) {
+	username := c.Param("username")
+	user := models.User{}
+	user.GetUserByName(username)
+	if user.Id != 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"msg":    "账号已存在！",
+			"status": "exist",
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"msg":    "账号未注册",
+			"status": "not exist",
+		})
+	}
+}
+
 func GetHot(c *gin.Context) {
 	strs := []string{"企业微信", "办公网", "VPN", "邮箱", "wifi", "Outlook", "网络安全"}
 	c.JSON(http.StatusOK, strs)
 }
+
 func GetKeyword(c *gin.Context) {
 	strs := []string{"分机号码发送流程", "分开发送", "分屏功能", "分区", "分割线",
 		"在外办公", "在MAC机上安装", "企业微信", "企业云盘",

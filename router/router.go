@@ -17,8 +17,8 @@ func InitRouter() *gin.Engine {
 	//f, _ := os.Open("gin.log")
 	gin.DefaultWriter = io.MultiWriter(f, os.Stdout) //将日志同时写入文件和控制台
 	//gin.SetMode(gin.ReleaseMode)// 正式版发布
-	// 默认启动方式，包含 Logger、Recovery 中间件
-	router := gin.Default()
+
+	router := gin.Default() // 默认启动方式，包含 Logger、Recovery 中间件
 	//router := gin.New()//无中间件启动
 
 	store := sessions.NewCookieStore([]byte("secret"))
@@ -64,15 +64,10 @@ func InitRouter() *gin.Engine {
 	})
 
 	//分组路由
-	v1 := router.Group("v1")
-	{
-		v1.GET("login", LoginEndpoint)
-	}
 	v2 := router.Group("v2")
 	{
 		v2.GET("login", LoginEndpoint)
-		//内嵌分组路由
-		v21 := v2.Group("v21")
+		v21 := v2.Group("v21") //内嵌分组路由
 		{
 			v21.GET("login", LoginEndpoint)
 		}
@@ -81,7 +76,10 @@ func InitRouter() *gin.Engine {
 	{
 		v3.POST("login", LoginApi)
 		v3.GET("hot", GetHot)
-		v3.GET("keyword", GetKeyword)
+		v3.GET("/keyword", GetKeyword)
+		v3.GET("/get/:id", GetUser)
+		v3.POST("/register", AddUser)
+		v3.GET("/exist/:username", IsExist)
 	}
 
 	// simulate some private data

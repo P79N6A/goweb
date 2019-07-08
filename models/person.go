@@ -1,7 +1,7 @@
 package models
 
 import (
-	db "goweb/databases"
+	"goweb/databases"
 	. "goweb/utils"
 )
 
@@ -12,8 +12,9 @@ type Person struct {
 	LastName  string `json:"last_name"`
 }
 
+var sqldb = databases.SqlDB
 func (p *Person) AddPerson() (id int64, err error) {
-	rs, err := db.SqlDB.Exec("INSERT INTO person(first_name, last_name) VALUES (?, ?)", p.FirstName, p.LastName)
+	rs, err := sqldb.Exec("INSERT INTO person(first_name, last_name) VALUES (?, ?)", p.FirstName, p.LastName)
 	if err != nil {
 		return
 	}
@@ -23,7 +24,7 @@ func (p *Person) AddPerson() (id int64, err error) {
 
 func (p *Person) GetPersons() (persons []Person, err error) {
 	persons = make([]Person, 0)
-	rows, err := db.SqlDB.Query("SELECT id, first_name, last_name FROM person")
+	rows, err := sqldb.Query("SELECT id, first_name, last_name FROM person")
 	defer rows.Close()
 	if err != nil {
 		return
@@ -40,14 +41,14 @@ func (p *Person) GetPersons() (persons []Person, err error) {
 }
 
 func (p *Person) GetPerson() (person Person, err error) {
-	err = db.SqlDB.QueryRow("SELECT id, first_name, last_name FROM person WHERE id=?", p.Id).Scan(
+	err = sqldb.QueryRow("SELECT id, first_name, last_name FROM person WHERE id=?", p.Id).Scan(
 		&person.Id, &person.FirstName, &person.LastName,
 	)
 	return
 }
 
 func (p *Person) ModPerson() (ra int64, err error) {
-	stmt, err := db.SqlDB.Prepare("UPDATE person SET first_name=?, last_name=? WHERE id=?")
+	stmt, err := sqldb.Prepare("UPDATE person SET first_name=?, last_name=? WHERE id=?")
 	defer stmt.Close()
 	if err != nil {
 		return
@@ -61,7 +62,7 @@ func (p *Person) ModPerson() (ra int64, err error) {
 }
 
 func (p *Person) DelPerson() (ra int64, err error) {
-	rs, err := db.SqlDB.Exec("DELETE FROM person WHERE id=?", p.Id)
+	rs, err := sqldb.Exec("DELETE FROM person WHERE id=?", p.Id)
 	CheckErr(err)
 	ra, err = rs.RowsAffected()
 	return
