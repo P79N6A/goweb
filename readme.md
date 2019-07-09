@@ -16,8 +16,11 @@ c.DefaultPostForm("key","defaultValue")
 
 c.Bind(&p)//将请求主体绑定到结构体中,目前支持JSON、XML、YAML和标准表单值(foo=bar&boo=baz)的绑定
 
+编译到linux下运行
 set GOOS=linux
 go build main.go
 
 swagger文档
 http://127.0.0.1:8081/swagger/index.html
+swag init 生成doc文件夹
+go run main.go启动项目

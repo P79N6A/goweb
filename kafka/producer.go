@@ -4,16 +4,17 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/Shopify/sarama"
+	"log"
 	"os"
 	"time"
 )
 
 func main() {
-	producer()
+	SyncProducer()
 }
 
 // 生产者
-func producer() {
+func AsyncProducer() {
 	fmt.Printf("producer_test\n")
 	config := sarama.NewConfig()
 	//等待服务器所有副本都保存成功后的响应
@@ -64,4 +65,40 @@ func producer() {
 			fmt.Printf("err: %s\n", fail.Err.Error())
 		}
 	}
+}
+
+func SyncProducer() {
+	config := sarama.NewConfig()
+	//config.Producer.RequiredAcks = sarama.WaitForAll
+	//config.Producer.Partitioner = sarama.NewRandomPartitioner
+	config.Producer.Return.Successes = true
+	config.Producer.Return.Errors = true
+	config.Producer.Timeout = 5 * time.Second
+	config.Version = sarama.V0_10_2_1
+
+	address := []string{"127.0.0.1:9092"}
+	producer, e := sarama.NewSyncProducer(address, config)
+	if e != nil {
+		log.Println(e)
+		return
+	}
+	defer producer.Close()
+	topic := "go_topic"
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Printf("Sync produce topic [%s]\n", topic)
+	for {
+		str, _, _ := reader.ReadLine()
+		//value := string(str)
+		msg := &sarama.ProducerMessage{
+			Topic: topic,
+			Value: sarama.ByteEncoder(str),
+		}
+		partition, offset, err := producer.SendMessage(msg)
+		if err != nil {
+			log.Println("send msg error", e)
+		} else {
+			log.Printf("发送成功，partition=%d, offset=%d\n", partition, offset)
+		}
+	}
+
 }

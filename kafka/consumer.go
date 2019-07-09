@@ -25,7 +25,9 @@ func consumer() {
 
 	//根据消费者获取指定的主题分区的消费者,Offset这里指定为获取最新的消息.
 	//topic := "java_topic"
-	topic := "kafka_go_test"
+	//topic := "kafka_go_test"
+	topic := "go_topic"
+	//topic := "__consumer_offsets"
 	partitionConsumer, err := consumer.ConsumePartition(topic, 0, sarama.OffsetOldest)
 	if err != nil {
 		fmt.Printf("try create partitionConsumer error %s\n", err.Error())

@@ -81,6 +81,10 @@ func InitRouter() *gin.Engine {
 		v3.POST("/register", AddUser)
 		v3.GET("/exist/:username", IsExist)
 	}
+	msgGroup := router.Group("/message")
+	{
+		msgGroup.POST("mail", MailPush)
+	}
 
 	// simulate some private data
 	var secrets = gin.H{

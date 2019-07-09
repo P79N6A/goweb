@@ -17,7 +17,7 @@ import (
 // @Router /user/login [post]
 func LoginApi(c *gin.Context) {
 	user := new(models.User)
-	if err := c.Bind(&user); err != nil {
+	if err := c.Bind(user); err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
@@ -55,10 +55,10 @@ func GetUser(c *gin.Context) {
 // @Router /user/register [post]
 func AddUser(c *gin.Context) {
 	user := &models.User{}
-	if err := c.Bind(&user); err != nil {
+	if err := c.Bind(user); err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 	}
-	fmt.Println("post参数：", user)
+	log.Println("post参数：", user)
 	//username不能重复
 	existUser := models.User{}
 	existUser.GetUserByName(user.Username)

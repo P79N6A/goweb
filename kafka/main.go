@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 )
 import "github.com/Shopify/sarama"
 
@@ -40,8 +39,8 @@ func proxy() {
 
 // 客户端可以用来获取消费者和生产者,还可以获取kafka的broker信息和topic信息,以及每个topic中的offset等
 func client() {
-	os.Setenv("http.proxyHost", "127.0.0.1")
-	os.Setenv("http.proxyPort", "12639")
+	//os.Setenv("http.proxyHost", "127.0.0.1")
+	//os.Setenv("http.proxyPort", "12639")
 	//os.Setenv("http.proxy","127.0.0.1:12639")
 	//os.Setenv("HTTP_PROXY", "http://127.0.0.1:12639")
 	//os.Setenv("HTTPS_PROXY", "https://127.0.0.1:12639")
@@ -67,6 +66,7 @@ func client() {
 	brokers := client.Brokers()
 	for _, broker := range brokers { //输出每个机器的地址
 		fmt.Println("broker: ", broker.ID(), broker.Addr())
+
 	}
 
 	partitions, _ := client.Partitions("java_topic")
