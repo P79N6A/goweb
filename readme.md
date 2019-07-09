@@ -21,6 +21,7 @@ set GOOS=linux
 go build main.go
 
 swagger文档
+go get -u github.com/swaggo/swag/cmd/swag
 http://127.0.0.1:8081/swagger/index.html
 swag init 生成doc文件夹
 go run main.go启动项目
