@@ -3,6 +3,7 @@ module goweb
 go 1.12
 
 require (
+		github.com/Gre-Z/common v0.0.0-20190528090720-f0f5591874a5
 	github.com/Shopify/sarama v1.19.0
 	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 	github.com/astaxie/beego v1.11.1
