@@ -9,6 +9,7 @@ require (
 	github.com/astaxie/beego v1.11.1
 	github.com/boj/redistore v0.0.0-20180917114910-cd5dcc76aeff // indirect
 	github.com/bsm/sarama-cluster v2.1.15+incompatible
+		github.com/elastic/go-elasticsearch/v7 v7.2.0
 	github.com/gin-gonic/contrib v0.0.0-20190526021735-7fb7810ed2a0
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-sql-driver/mysql v1.4.1

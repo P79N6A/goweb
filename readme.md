@@ -25,3 +25,7 @@ go get -u github.com/swaggo/swag/cmd/swag
 http://127.0.0.1:8080/swagger/index.html
 swag init 生成doc文件夹
 go run main.go启动项目
+
+go-elasticsearch: Elastic 官方的 Go 语言客户端
+https://github.com/elastic/go-elasticsearch#go-elasticsearch
+https://www.infoq.cn/article/HVzMNKuYYmCkRTK-oZdp   中文版
